@@ -90,6 +90,8 @@ public class LockscreenDashboardFragment extends DashboardFragment
         mOwnerInfoPreferenceController =
             new OwnerInfoPreferenceController(context, this, lifecycle);
         controllers.add(mOwnerInfoPreferenceController);
+        controllers.add(new LockdownButtonPreferenceController(context));
+
         return controllers;
     }
 
@@ -101,23 +103,25 @@ public class LockscreenDashboardFragment extends DashboardFragment
     }
 
     public static final SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
-        new BaseSearchIndexProvider() {
-            @Override
-            public List<SearchIndexableResource> getXmlResourcesToIndex(
-                Context context, boolean enabled) {
-                final SearchIndexableResource sir = new SearchIndexableResource(context);
-                sir.xmlResId = R.xml.security_lockscreen_settings;
-                return Arrays.asList(sir);
-            }
+            new BaseSearchIndexProvider() {
+                @Override
+                public List<SearchIndexableResource> getXmlResourcesToIndex(
+                        Context context, boolean enabled) {
+                    final SearchIndexableResource sir = new SearchIndexableResource(context);
+                    sir.xmlResId = R.xml.security_lockscreen_settings;
+                    return Arrays.asList(sir);
+                }
 
-            @Override
-            public List<AbstractPreferenceController> getPreferenceControllers(Context context) {
-                final List<AbstractPreferenceController> controllers = new ArrayList<>();
-                controllers.add(new LockScreenNotificationPreferenceController(context));
-                controllers.add(new AddUserWhenLockedPreferenceController(context));
-                controllers.add(new OwnerInfoPreferenceController(
-                    context, null /* fragment */, null /* lifecycle */));
-                return controllers;
-            }
-        };
+                @Override
+                public List<AbstractPreferenceController> getPreferenceControllers(
+                        Context context) {
+                    final List<AbstractPreferenceController> controllers = new ArrayList<>();
+                    controllers.add(new LockScreenNotificationPreferenceController(context));
+                    controllers.add(new AddUserWhenLockedPreferenceController(context));
+                    controllers.add(new OwnerInfoPreferenceController(
+                            context, null /* fragment */, null /* lifecycle */));
+                    controllers.add(new LockdownButtonPreferenceController(context));
+                    return controllers;
+                }
+            };
 }
